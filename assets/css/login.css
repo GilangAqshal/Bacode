@@ -1,0 +1,49 @@
+@import url('https://cdn.tailwindcss.com');
+@import 'tailwind.config.js';
+
+/* Gaya kustom atau utility classes tambahan */
+@layer utilities {
+
+    *{
+        font-family: 'Poppins', sans-serif;
+    }
+
+    .btn-blue {
+        background: #1880E8;
+        color: #ffffff;
+        padding-top: 12px;
+        padding-bottom: 12px;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 50px;
+        transition: 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .btn-blue:hover {
+        margin-left: 1px;
+        box-shadow: 0px 18px 18px 0px rgba(24, 128, 232, 0.5);
+    }
+
+    .btn-white {
+        background: #FFFFFF;
+        color: #010003;
+        padding-top: 12px; 
+        padding-bottom: 12px;
+        width: 100%; 
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 50px;
+        transition: 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+        box-shadow: 0px 0px 10px 5px rgba(1, 0, 3, 0.75);
+    }
+
+    .btn-white:hover {
+        background: #1880E8;
+        color: #ffffff;
+        margin-left: 1px;
+        box-shadow: 0px 18px 18px 0px rgba(24, 128, 232, 0.5);
+    }
+}
