@@ -1,4 +1,4 @@
-# 🐦 Bacode. – Clone X / Twitter Gen Z Style
+# 💻 Bacode. – Clone X / Twitter Gen Z Style
 
 **Bacode** adalah proyek clone dari Twitter (X) dengan pendekatan modern dan gaya Gen Z. Dibuat sebagai latihan pengembangan frontend menggunakan HTML, CSS, Tailwind, dan JavaScript (tanpa framework frontend/backend). Data user disimpan di `localStorage`, dan fitur autentikasi berjalan secara lokal.
 
