@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 username: userUsername.value,
                 avatar: userAvatar.value,
                 password: userPassword.value,
-                createdAt: '${year}-${month}-${day}',
+                createdAt: `${year}-${month}-${day}`,
             };
 
             const result = userManager.savedUser(userData);

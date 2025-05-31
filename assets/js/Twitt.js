@@ -7,7 +7,8 @@ class Twitt{
             try{
                 const storedTwitts = localStorage.getItem('twitts');
                 this._twitts = storedTwitts ? JSON.parse(storedTwitts) : [];
-            }catch(error){
+            }
+            catch(error){
                 return this._twitts = [];
             }
         }
