@@ -10,6 +10,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const userManager = new User();
 
+  instantFeedback.style.display='none';
 
   formManager.addEventListener("submit", (event) => {
     event.preventDefault();
@@ -19,6 +20,7 @@ document.addEventListener("DOMContentLoaded", () => {
       password: userPassword.value,
 
     };
+    
 
     const result = userManager.userSignIn(userData);
 

@@ -24,28 +24,28 @@
             if(typeof name !== 'string' || name.trim() === ''){
                 return{
                     success: false,
-                    error: 'name is missing'
+                    error: 'masukan nama anda'
                 }
             }
 
             if(typeof username !== 'string' || username.trim() === ''){
                 return{
                     success: false,
-                    error: 'username is missing'
+                    error: 'silahkan isi username'
                 }
             }
 
             if(typeof avatar !== 'string' || avatar.trim() === ''){
                 return{
                     success: false,
-                    error: 'avatar is missing'
+                    error: 'silahkan masukan avatar'
                 }
             }
 
             if(typeof password !== 'string' || password.trim() === ''){
                 return{
                     success: false,
-                    error: 'password is missing'
+                    error: 'silahkan isi password'
                 }
             }
 
