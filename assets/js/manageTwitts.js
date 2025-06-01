@@ -1,102 +1,93 @@
-document.addEventListener('DOMContentLoaded', ()=>{
+document.addEventListener("DOMContentLoaded", () => {
+  const usernameLoggedin = localStorage.getItem("usernameLoggedIn");
 
-    const usernameLoggedin=localStorage.getItem('usernameLoggedIn');
+  const instantFeedback = document.getElementById("instantFeedback");
+  instantFeedback.style.display = "none";
 
-    const instantFeedback = document.getElementById('instantFeedback');
-    instantFeedback.style.display='none';
+  const twittForm = document.getElementById("twittForm");
+  const ownerPhoto = document.getElementById("ownerPhoto");
+  const twittsWrapper = document.getElementById("twittsWrapper");
+  const twittContent = document.getElementById("twittContent");
 
-    const twittForm= document.getElementById('twittForm');
-    const ownerPhoto= document.getElementById('ownerPhoto');
-    const twittsWrapper= document.getElementById('twittsWrapper');
-    const twittContent=document.getElementById('twittContent');
+  let selectedFeeling = null;
 
-    let selectedFeeling=null;
+  const feelingItems = document.querySelectorAll(".item-feeling");
 
-    const feelingItems=document.querySelectorAll('.item-feeling');
+  feelingItems.forEach((item) => {
+    item.addEventListener("click", () => {
+      selectedFeeling = item.getAttribute("data-feeling");
 
-    feelingItems.forEach(item =>{
+      feelingItems.forEach((i) => i.classList.remove("border-[#1880e8]"));
 
-        item.addEventListener('click', ()=>{
-
-            selectedFeeling=item.getAttribute('data-feeling');
-            
-            feelingItems.forEach(i=> i.classList.remove('border-[#1880e8]'));
-
-            item.classList.add('border-[#1880e8]');
-        });
-        
+      item.classList.add("border-[#1880e8]");
     });
+  });
 
-    const twittManager=new Twitt();
-    const userManager=new User();
-    const twittUsers=userManager.getUsers();
+  const twittManager = new Twitt();
+  const userManager = new User();
+  const twittUsers = userManager.getUsers();
 
-    const ownerLoggedin=twittUsers.find(user=>user.username.toLowerCase()===usernameLoggedin.toLowerCase());
-    ownerPhoto.src=ownerLoggedin.avatar;
+  const ownerLoggedin = twittUsers.find(
+    (user) => user.username.toLowerCase() === usernameLoggedin.toLowerCase()
+  );
+  ownerPhoto.src = ownerLoggedin.avatar;
 
+  // Membuat format tanggal dengan "yyyy-mm-dd"
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = String(now.getMonth() + 1).padStart(2, "0");
+  const day = String(now.getDate()).padStart(2, "0");
 
-        // Membuat format tanggal dengan "yyyy-mm-dd"
-        const now = new Date();
-        const year = now.getFullYear();
-        const month = String(now.getMonth() + 1).padStart(2, '0');
-        const day = String(now.getDate()).padStart(2,'0');
+  twittForm.addEventListener("submit", (event) => {
+    event.preventDefault();
 
+    const twittData = {
+      twittContent: twittContent.value,
+      twittUsernameOwner: usernameLoggedin,
+      twittFeeling: selectedFeeling,
+      twittCreatedAt: `${year}-${month}-${day}`,
+    };
 
+    const result = twittManager.saveTwitt(twittData);
 
-    twittForm.addEventListener('submit', (event) => {
-        
-        event.preventDefault();
+    if (result.success) {
+      instantFeedback.style.display = "none";
+      twittContent.value = "";
+      selectedFeeling = null;
 
-        const twittData = {
-            twittContent: twittContent.value,
-            twittUsernameOwner: usernameLoggedin,
-            twittFeeling: selectedFeeling,
-            twittCreatedAt: `${year}-${month}-${day}`,
-        };
+      feelingItems.forEach((item) => {
+        item.classList.remove("border-[#1880e8]");
+      });
 
-        const result = twittManager.saveTwitt(twittData);
+      displayAllTwitts(twittManager.getTwitts());
+    } else {
+      instantFeedback.style.display = "flex";
+      instantFeedback.textContent = result.error;
+    }
+  });
 
-        if(result.success){
-            instantFeedback.style.display = 'none';
-            twittContent.value = '';
-            selectedFeeling = null;
+  const existingTwitts = twittManager.getTwitts();
 
-            feelingItems.forEach(item => {
-                item.classList.remove('border-[#1880e8]');
-            });
+  function displayAllTwitts(twitts = existingTwitts) {
+    if (twitts.length === 0) {
+      console.log("tidak ada twitts tersedia");
+    } else {
+      console.log("tersedia twitts siap digunakan");
+      twittsWrapper.innerHTML = "";
 
-            displayAllTwitts(twittManager.getTwitts());
+      twitts.sort((a, b) => b.id - a.id);
 
-        }
-        else{
-            instantFeedback.style.display='flex';
-            instantFeedback.textContent=result.error;
-        }
+      twitts.forEach((twitt) => {
+        const ownerTwitt = twittUsers.find(
+          (user) =>
+            user.username.toLowerCase() ===
+            twitt.twittUsernameOwner.toLowerCase()
+        );
 
-
-    });
-
-    const existingTwitts = twittManager.getTwitts();
-
-    function displayAllTwitts(twitts = existingTwitts){
-        if(twitts.length === 0){
-            console.log('tidak ada twitts tersedia');
-        }
-        else{
-            console.log('tersedia twitts siap digunakan');
-            twittsWrapper.innerHTML = '';
-
-            twitts.sort((a,b) => b.id - a.id);
-
-            twitts.forEach(twitt => {
-
-                const ownerTwitt = twittUsers.find(user => user.username.toLowerCase() === twitt.twittUsernameOwner.toLowerCase());
-
-                const itemTwitt = document.createElement('div');
-                itemTwitt.className = 'bg-primary p-4 border-b-2 border-line';
-                itemTwitt.id = `twitt-${twitt.id}`;
-                itemTwitt.ineerHTML = 
-                `
+        const itemTwitt = document.createElement("div");
+        itemTwitt.className = "bg-primary p-4 border-b-2 border-line";
+        itemTwitt.id = `twitt-${twitt.id}`;
+        itemTwitt.innerHTML = `
                 <div class="flex items-center justify-between">
                         <div class="flex items-center justify-start">
                             <img src="${ownerTwitt.avatar}" alt="search" srcset=""
@@ -138,13 +129,10 @@ document.addEventListener('DOMContentLoaded', ()=>{
                     </div>
                 `;
 
-                twittsWrapper.appendChild(itemTwitt);
-
-            });
-
-        }    
+        twittsWrapper.appendChild(itemTwitt);
+      });
     }
+  }
 
-    displayAllTwitts()
-
+  displayAllTwitts();
 });
