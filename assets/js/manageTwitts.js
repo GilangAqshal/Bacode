@@ -1,5 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const usernameLoggedin = localStorage.getItem("usernameLoggedIn");
+
+  const usernameLoggedIn = localStorage.getItem("usernameLoggedIn");
 
   const instantFeedback = document.getElementById("instantFeedback");
   instantFeedback.style.display = "none";
@@ -28,7 +29,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const twittUsers = userManager.getUsers();
 
   const ownerLoggedin = twittUsers.find(
-    (user) => user.username.toLowerCase() === usernameLoggedin.toLowerCase()
+    (user) => user.username.toLowerCase() === usernameLoggedIn.toLowerCase()
   );
   ownerPhoto.src = ownerLoggedin.avatar;
 
@@ -43,7 +44,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const twittData = {
       twittContent: twittContent.value,
-      twittUsernameOwner: usernameLoggedin,
+      twittUsernameOwner: usernameLoggedIn,
       twittFeeling: selectedFeeling,
       twittCreatedAt: `${year}-${month}-${day}`,
     };
@@ -112,7 +113,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
                     <div class="flex justify-between items-center pl-[55px] w-[484px]">
                         <div class="flex justify-center items-center gap-2.5 pr-[250px]">
-                            <a href="#" class="cursor flex justify-start items-center w-[93px] gap-1.5">
+                            <a id="loveTwitt-${twitt.id}" href="#" class="cursor flex justify-start items-center w-[93px] gap-1.5">
                                 <img class="like-icon" src="assets/heart.svg" alt="heart">
                                 <p class="text-sm font-normal text-like">0 Likes
                                 </p>
@@ -130,6 +131,30 @@ document.addEventListener("DOMContentLoaded", () => {
                 `;
 
         twittsWrapper.appendChild(itemTwitt);
+        //bikin eevent listener untuk fitur live
+        itemTwitt.querySelector(`#loveTwitt-${twitt.id}`).addEventListener('click', function(event){
+
+          event.preventDefault(); 
+
+          const loveTwittData = {
+            twittId: twitt.id,
+            userId: usernameLoggedIn, 
+          };
+
+          const result = twittManager.loveTwitt(loveTwittData);   
+          
+          if(result.success){
+
+          }
+          else{
+            instantFeedback.style.display = 'flex';
+            instantFeedback.textContent = result.error;
+          }
+      }
+    );
+
+
+
       });
     }
   }
