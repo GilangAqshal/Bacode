@@ -1,76 +1,33 @@
 document.addEventListener("DOMContentLoaded", () => {
   const usernameLoggedIn = localStorage.getItem("usernameLoggedIn");
+  const usernameProfileChosen = localStorage.getItem("usernameProfileChosen");
 
-  const instantFeedback = document.getElementById("instantFeedback");
-  instantFeedback.style.display = "none";
-
-  const twittForm = document.getElementById("twittForm");
   const ownerPhoto = document.getElementById("ownerPhoto");
   const twittsWrapper = document.getElementById("twittsWrapper");
-  const twittContent = document.getElementById("twittContent");
-
-  let selectedFeeling = null;
-
-  const feelingItems = document.querySelectorAll(".item-feeling");
-
-  feelingItems.forEach((item) => {
-    item.addEventListener("click", () => {
-      selectedFeeling = item.getAttribute("data-feeling");
-
-      feelingItems.forEach((i) => i.classList.remove("border-[#1880e8]"));
-
-      item.classList.add("border-[#1880e8]");
-    });
-  });
+  const userProfileName = document.getElementById("userProfileName");
+  const userProfileUsername = document.getElementById("userProfileUsername");
 
   const twittManager = new Twitt();
   const userManager = new User();
   const twittUsers = userManager.getUsers();
 
-  const ownerLoggedin = twittUsers.find(
-    (user) => user.username.toLowerCase() === usernameLoggedIn.toLowerCase()
-  );
-  ownerPhoto.src = ownerLoggedin.avatar;
+  const userProfileChosen = twittUsers.find(user => user.username.toLowerCase() === usernameProfileChosen.toLowerCase());
 
-  // Membuat format tanggal dengan "yyyy-mm-dd"
-  const now = new Date();
-  const year = now.getFullYear();
-  const month = String(now.getMonth() + 1).padStart(2, "0");
-  const day = String(now.getDate()).padStart(2, "0");
-
-  twittForm.addEventListener("submit", (event) => {
-    event.preventDefault();
-
-    const twittData = {
-      twittContent: twittContent.value,
-      twittUsernameOwner: usernameLoggedIn,
-      twittFeeling: selectedFeeling,
-      twittCreatedAt: `${year}-${month}-${day}`,
-    };
-
-    const result = twittManager.saveTwitt(twittData);
-
-    if (result.success) {
-      instantFeedback.style.display = "none";
-      twittContent.value = "";
-      selectedFeeling = null;
-
-      feelingItems.forEach((item) => {
-        item.classList.remove("border-[#1880e8]");
-      });
-
-      displayAllTwitts(twittManager.getTwitts());
-    } else {
-      instantFeedback.style.display = "flex";
-      instantFeedback.textContent = result.error;
-    }
-  });
+//   const ownerLoggedin = twittUsers.find
+    // (user) => user.username.toLowerCase() === usernameLoggedIn.toLowerCase()
+//   );
+  ownerPhoto.src = userProfileChosen.avatar;
+  userProfileName.textContent = userProfileChosen.name;
+  userProfileUsername.textContent = '@' + userProfileChosen.username;
 
   const existingTwitts = twittManager.getTwitts();
   const existingLoveTwitt = twittManager.getLoveTwitts();
 
-  function displayAllTwitts(twitts = existingTwitts) {
+  const userProfileTwitts = existingTwitts.filter(twitt => twitt.twittUsernameOwner === usernameProfileChosen);
+
+  function displayAllTwitts(twitts = userProfileTwitts) {
     if (twitts.length === 0) {
+        twittsWrapper.innerHTML = "Tidak ada Twitts terbaru.";
       console.log("tidak ada twitts tersedia");
     } else {
       console.log("tersedia twitts siap digunakan");
@@ -196,7 +153,7 @@ document.addEventListener("DOMContentLoaded", () => {
               event.preventDefault();
                 const result = twittManager.deleteTwitt(twitt.id);
                 if(result.success){
-                  displayAllTwitts(twittManager.getTwitts());
+                  displayAllTwitts(twittManager.getTwitts().filter(twitt => twitt.twittUsernameOwner === usernameProfileChosen));
                 }
                 else{
                   instantFeedback.style.display = 'flex';

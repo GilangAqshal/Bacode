@@ -35,6 +35,24 @@ class Twitt {
     }
     return this._loveTwitts;
   }
+
+  deleteTwitt(twittId){
+    const index = this.getTwitts().findIndex(twitt => twitt.id === twittId);
+    if(index !== -1){
+      this._twitts.splice(index, 1);
+      try {
+      localStorage.setItem("twitts", JSON.stringify(this._twitts));
+      return {
+        success: true,
+      };
+    } catch (error) {
+      return {
+        success: false,
+        error: 'twitt enggak ada'
+      };
+    }
+    }
+  }
     // ini method bisa unlike
   loveTwitt(loveTwittData) {
     const { twittId, userId } = loveTwittData;
