@@ -146,15 +146,33 @@ document.addEventListener("DOMContentLoaded", () => {
             };
 
             const result = twittManager.loveTwitt(loveTwittData);
-
-            if(result.success){
+            if (result.success) {
               let currentLikes = parseInt(totalLikeThatTwitt.textContent) || 0;
-              totalLikeThatTwitt.textContent = currentLikes + 1 + ' Likes';
-              likeIcon.src = "assets/heart-fill.svg";
-            }else{
-              instantFeedback.style.display = 'flex';
+
+              if (result.unliked) {
+                totalLikeThatTwitt.textContent = currentLikes - 1 + " Likes";
+                likeIcon.src = "assets/heart.svg";
+              } else {
+                totalLikeThatTwitt.textContent = currentLikes + 1 + " Likes";
+                likeIcon.src = "assets/heart-fill.svg";
+              }
+
+              instantFeedback.style.display = "none";
+            } else {
+              instantFeedback.style.display = "flex";
               instantFeedback.textContent = result.error;
             }
+            
+            // INI FLOW nya sudAH BETUL TETAPI DIA BINGUNG LIKE DAN UNLIKE
+            // if(result.success){
+            //   let currentLikes = parseInt(totalLikeThatTwitt.textContent) || 0;
+            //   totalLikeThatTwitt.textContent = currentLikes + 1 + ' Likes';
+            //   likeIcon.src = "assets/heart-fill.svg";
+            // }else{
+            //   let currentLikes = parseInt(totalLikeThatTwitt.textContent) || 0;
+            //   totalLikeThatTwitt.textContent = currentLikes - 1 + " Likes";
+            //   likeIcon.src = "assets/heart.svg";
+            // }
 
             if (result.success) {
             } else {
