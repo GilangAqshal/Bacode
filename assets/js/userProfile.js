@@ -27,7 +27,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function displayAllTwitts(twitts = userProfileTwitts) {
     if (twitts.length === 0) {
-        twittsWrapper.innerHTML = "Tidak ada Twitts terbaru.";
+      twittsWrapper.innerHTML = `
+      <div class="flex justify-center items-center h-[200px]">
+        <p class="text-username text-center text-lg">Tidak ada Twitts terbaru.</p>
+      </div>
+    `;
+    
       console.log("tidak ada twitts tersedia");
     } else {
       console.log("tersedia twitts siap digunakan");
