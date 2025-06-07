@@ -85,7 +85,52 @@
                     </div>
                     <div class="w-[90%] flex justify-between items-center ml-[54px] mr-4 pt-[17px]">
                         <div class="flex justify-center items-center gap-2.5">
-                            <div data-feeling="🤩 Happy"
+                            <!-- item-feeling... -->
+                            <div class="flex items-center justify-center gap-2 px-4 w-full">
+                                <button id="btnPrevFeeling" type="button"
+                                  class="w-8 h-8 mr-2 flex justify-center items-center text-white bg-secondary rounded-full hover:bg-[#2a2a2a]">
+                                  &#8249;
+                                </button>
+                              
+                                <div id="feelingSlider" class="flex overflow-x-hidden gap-2 transition-all duration-300"
+                                  style="scroll-behavior: smooth; width: 340px;">
+                                  <div data-feeling="🤩 Happy" class="item-feeling flex-shrink-0 min-w-[100px] cursor-pointer border-line flex justify-center items-center rounded-full px-3 py-1.5 border-2 gap-1.5">
+                                    <p>🤩</p>
+                                    <p class="text-sm font-semibold">Happy</p>
+                                  </div>
+                                  <div data-feeling="😥 Sad" class="item-feeling flex-shrink-0 min-w-[100px] cursor-pointer flex justify-center items-center rounded-full px-3 py-1.5 border-line border-2 gap-1.5">
+                                    <p>😥</p>
+                                    <p class="text-sm font-semibold">Sad</p>
+                                  </div>
+                                  <div data-feeling="🤯 Shocked" class="item-feeling flex-shrink-0 min-w-[100px] cursor-pointer flex justify-center items-center rounded-full px-3 py-1.5 border-line border-2 gap-1.5">
+                                    <p>🤯</p>
+                                    <p class="text-sm font-semibold">Shocked</p>
+                                  </div>
+                                  <div data-feeling="😂 Funny" class="item-feeling flex-shrink-0 min-w-[100px] cursor-pointer flex justify-center items-center rounded-full px-3 py-1.5 border-line border-2 gap-1.5">
+                                    <p>😂</p>
+                                    <p class="text-sm font-semibold">Funny</p>
+                                  </div>
+                                  <div data-feeling="💀 Cringe" class="item-feeling flex-shrink-0 min-w-[100px] cursor-pointer flex justify-center items-center rounded-full px-3 py-1.5 border-line border-2 gap-1.5">
+                                    <p>💀</p>
+                                    <p class="text-sm font-semibold">Cringe</p>
+                                  </div>
+                                  <div data-feeling="😎 Chill" class="item-feeling flex-shrink-0 min-w-[100px] cursor-pointer flex justify-center items-center rounded-full px-3 py-1.5 border-line border-2 gap-1.5">
+                                    <p>😎</p>
+                                    <p class="text-sm font-semibold">Chill</p>
+                                  </div>
+                                  <div data-feeling="😡 Angry" class="item-feeling flex-shrink-0 min-w-[100px] cursor-pointer flex justify-center items-center rounded-full px-3 py-1.5 border-line border-2 gap-1.5">
+                                    <p>😡</p>
+                                    <p class="text-sm font-semibold">Angry</p>
+                                  </div>
+                                </div>
+                              
+                                <button id="btnNextFeeling" type="button"
+                                  class="w-8 h-8 ml-2 flex justify-center items-center text-white bg-secondary rounded-full hover:bg-[#2a2a2a]">
+                                  &#8250;
+                                </button>
+                              </div>
+                              
+                            <!-- <div data-feeling="🤩 Happy"
                                 class="item-feeling cursor-pointer border-line flex justify-center items-center rounded-full px-3 py-1.5 border-2 gap-1.5">
                                 <p>🤩</p>
                                 <p class="text-sm font-semibold">Happy</p>
@@ -99,7 +144,7 @@
                                 class="item-feeling cursor-pointer flex justify-center items-center rounded-full px-3 py-1.5 border-line border-2 gap-1.5">
                                 <p>🤯</p>
                                 <p class="text-sm font-semibold">Shocked</p>
-                            </div>
+                            </div> -->
                         </div>
                         <button>
                             <span class="btn-blue cursor-pointer font-bold">Post</span>
@@ -288,7 +333,25 @@
     <script src="assets/js/manageTwitts.js"></script>
     <script src="assets/js/Twitt.js"></script>
     <script src="assets/js/addTwitt.js"></script>
-
+    <!-- data-peeling slider caraousel -->
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+          const slider = document.getElementById("feelingSlider");
+          const btnPrev = document.getElementById("btnPrevFeeling");
+          const btnNext = document.getElementById("btnNextFeeling");
+      
+          const ITEM_WIDTH = 110; // padding + gap
+      
+          btnNext.addEventListener("click", () => {
+            slider.scrollLeft += ITEM_WIDTH;
+          });
+      
+          btnPrev.addEventListener("click", () => {
+            slider.scrollLeft -= ITEM_WIDTH;
+          });
+        });
+      </script>
+      
     <script>
         tailwind.config = {
             theme: {
