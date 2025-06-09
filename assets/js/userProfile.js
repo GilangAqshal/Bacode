@@ -13,11 +13,31 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const userProfileChosen = twittUsers.find(user => user.username.toLowerCase() === usernameProfileChosen.toLowerCase());
 
+  // Verified Centang Biru Developer
+  function isVerifiedUser(username) {
+    const verifiedList = [
+      "LangsDev",
+      "ZddnnnYoo",
+      "Fchriptra",
+      "Dyzaa10",
+      "AFIRES",
+    ];
+    return verifiedList.includes(username) || username.endsWith("48");
+  }
+
 //   const ownerLoggedin = twittUsers.find
     // (user) => user.username.toLowerCase() === usernameLoggedIn.toLowerCase()
 //   );
   ownerPhoto.src = userProfileChosen.avatar;
-  userProfileName.textContent = userProfileChosen.name;
+  userProfileName.innerHTML = `
+  ${userProfileChosen.name}
+  ${
+    isVerifiedUser(userProfileChosen.username)
+      ? '<img src="assets/verify.png" alt="" class="inline w-6 h-6 rounded-full ml-2" />'
+      : ""
+  }
+`;
+
   userProfileUsername.textContent = '@' + userProfileChosen.username;
 
   const existingTwitts = twittManager.getTwitts();
