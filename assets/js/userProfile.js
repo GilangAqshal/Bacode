@@ -12,8 +12,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const twittUsers = userManager.getUsers();
 
   const userProfileChosen = twittUsers.find(user => user.username.toLowerCase() === usernameProfileChosen.toLowerCase());
-
-  // Verified Centang Biru Developer
   function isVerifiedUser(username) {
     const verifiedList = [
       "LangsDev",
@@ -24,19 +22,16 @@ document.addEventListener("DOMContentLoaded", () => {
     ];
     return verifiedList.includes(username) || username.endsWith("48");
   }
-
+  
 //   const ownerLoggedin = twittUsers.find
     // (user) => user.username.toLowerCase() === usernameLoggedIn.toLowerCase()
 //   );
+
+// Setting User verified icon
   ownerPhoto.src = userProfileChosen.avatar;
   userProfileName.innerHTML = `
   ${userProfileChosen.name}
-  ${
-    isVerifiedUser(userProfileChosen.username)
-      ? '<img src="assets/verify.png" alt="" class="inline w-6 h-6 rounded-full ml-2" />'
-      : ""
-  }
-`;
+  ${isVerifiedUser(userProfileChosen.username) ? '<img src="assets/verify.png" alt="" class="inline w-6 h-6 rounded-full ml-2" />' : ""}`;
 
   userProfileUsername.textContent = '@' + userProfileChosen.username;
 
@@ -74,18 +69,31 @@ document.addEventListener("DOMContentLoaded", () => {
         itemTwitt.innerHTML = `
                 <div class="flex items-center justify-between">
                         <div class="flex items-center justify-start">
-                            <img id="visitProfile-${ownerTwitt.username}" src="${ownerTwitt.avatar}" alt="search" srcset=""
+                            <img id="visitProfile-${
+                              ownerTwitt.username
+                            }" src="${ownerTwitt.avatar}" alt="search" srcset=""
                                 class="object-cover w-[46px] h-[46px] rounded-full">
                             <div class="pl-2">
                                 <div class="flex gap-1">
-                                    <p class="text-base font-bold inline-block">${ownerTwitt.name} <img src="assets/verify.png" alt="" srcset="" class="inline w-5 h-5 rounded-full"> </p>
+                                  <p class="text-base font-bold inline-block">
+                                      ${ownerTwitt.name}
+                                      ${
+                                        isVerifiedUser(twitt.twittUsernameOwner)
+                                          ? '<img src="assets/verify.png" alt="" class="inline w-5 h-5 rounded-full">'
+                                          : ""
+                                      }
+                                  </p>
                                 </div>
-                                <p class="text-username text-sm">@${twitt.twittUsernameOwner} • ${twitt.twittCreatedAt}</p>
+                                <p class="text-username text-sm">@${
+                                  twitt.twittUsernameOwner
+                                } • ${twitt.twittCreatedAt}</p>
                             </div>
                         </div>
                         <div
                             class="flex justify-center items-center rounded-full px-3 py-1.5 border-line border-2 gap-1.5">
-                            <p class="text-sm font-semibold">${twitt.twittFeeling}</p>
+                            <p class="text-sm font-semibold">${
+                              twitt.twittFeeling
+                            }</p>
                         </div>
                     </div>
 
@@ -95,18 +103,21 @@ document.addEventListener("DOMContentLoaded", () => {
 
                     <div class="flex justify-between items-center pl-[55px] w-[484px]">
                         <div class="flex justify-center items-center gap-2.5 pr-[250px]">
-                            <a id="loveTwitt-${twitt.id}" href="#" class="cursor flex justify-start items-center w-[93px] gap-1.5">
-                                <img class="like-icon" src="assets/${hasLiked ? `heart-fill.svg` : `heart.svg`}" alt="heart">
-                                <p id="totalLikeThatTwitt" class="text-sm font-normal text-like">${countLoveTwitt} Likes
-                                </p>
+                            <a id="loveTwitt-${
+                              twitt.id
+                            }" href="#" class="cursor flex justify-start items-center w-[93px] gap-1.5">
+                                <img class="like-icon" src="assets/${
+                                  hasLiked ? `heart-fill.svg` : `heart.svg`
+                                }" alt="heart">
+                                <p id="totalLikeThatTwitt-${twitt.id}" class="text-sm font-normal text-like">${countLoveTwitt} Likes</p>
                             </a>
-                            ${twitt.twittUsernameOwner === usernameLoggedIn?
-                            `<a id="deleteTwitt-${twitt.id}" href="#" class="cursor flex justify-start items-center w-[93px] gap-1.5">
+                            ${
+                              twitt.twittUsernameOwner === usernameLoggedIn
+                                ? `<a id="deleteTwitt-${twitt.id}" href="#" class="cursor flex justify-start items-center w-[93px] gap-1.5">
                                 <img src="assets/trash.svg" alt="heart">
                                 <p class="text-sm font-normal text-username">Delete</p>
                             </a>`
-                            :
-                            `<a href="#" class="flex justify-start items-center w-[93px] gap-1.5">
+                                : `<a href="#" class="flex justify-start items-center w-[93px] gap-1.5">
                                 <img src="assets/warning-2.svg">
                                 <p class="text-sm font-normal text-username">Report</p>
                             </a>`
@@ -123,7 +134,7 @@ document.addEventListener("DOMContentLoaded", () => {
           return (window.location.href = "../profile.html");
         });
 
-        const totalLikeThatTwitt = itemTwitt.querySelector('#totalLikeThatTwitt');
+        const totalLikeThatTwitt = itemTwitt.querySelector(`#totalLikeThatTwitt-${twitt.id}`);
         const likeIcon = itemTwitt.querySelector('.like-icon');
 
         //bikin eevent listener untuk fitur live

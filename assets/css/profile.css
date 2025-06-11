@@ -68,4 +68,12 @@
     .image-cover{
         background-image: url('/assets/cover.png');
     }
+
+    .like-icon {
+        transition: transform 0.2s;
+      }
+      .like-icon:active {
+        transform: scale(1.3);
+      }
+      
 }
